@@ -1,28 +1,61 @@
 import java.io.BufferedReader;
-import java.io.FileReader;  
+import java.io.FileReader;
 import java.io.IOException;
 
-public class ReadFile{
+public class ReadFile {
 
-    public void insertBST(){  
+    public BinarySearchTree insertBST(String fileName) {
+        BinarySearchTree dictionary = new BinarySearchTree();
 
-    }
-
-    public String readFile(String fileName){
-        String translate = "";
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             String linea;
-
             while ((linea = br.readLine()) != null) {
-                linea += br.readLine();
+                String[] palabras = linea.split(",\\s*");
+                if (palabras.length == 2) {
+                    String key = palabras[0].trim();
+                    String value = palabras[1].trim();
+                    Association association = new Association(key, value);
+                    dictionary.insert(association);
+                } else {
+                    System.out.println("Formato de la línea incorrecto: " + linea);
+                }
             }
-
             br.close();
         } catch (IOException e) {
-            System.out.println("Error, no existe el archivo datos.txt en el folder: " );
+            System.out.println("Error, no se puede leer el archivo " + fileName);
             e.printStackTrace();
         }
-        return translate;
+
+        return dictionary;
+    }
+
+    public String translateText(String fileName, BinarySearchTree dictionary) {
+        StringBuilder translatedText = new StringBuilder();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] words = linea.split("\\s+");
+                for (String word : words) {
+                    String translatedWord = translateWord(word.toLowerCase(), dictionary);
+                    translatedText.append(translatedWord).append(" ");
+                }
+            }
+            br.close();
+        } catch (IOException e) {
+            System.out.println("Error, no se puede leer el archivo " + fileName);
+            e.printStackTrace();
+        }
+        return translatedText.toString();
+    }
+
+    private String translateWord(String word, BinarySearchTree dictionary) {
+        Association association = dictionary.search(new Association(word, ""));
+        if (association != null) {
+            return association.getValue();
+        } else {
+            return "*" + word + "*";
+        }
     }
 }
