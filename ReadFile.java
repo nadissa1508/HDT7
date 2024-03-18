@@ -1,3 +1,4 @@
+
 /**
  * Universidad del Valle de Guatemala
  * @author Angie Nadissa Vela López, 23764 
@@ -15,12 +16,13 @@ import java.io.IOException;
 
 public class ReadFile {
 
-    
-    /** 
+    /**
      * @param fileName
      * @return BinarySearchTree
-     * Se lee el texto diccionario.txt y los valores dentro de el se separan en pares y se rodean por parentesis
-     * para crear las asociaciones, con dichas asociaciones se crea el arbol binario
+     *         Se lee el texto diccionario.txt y los valores dentro de el se separan
+     *         en pares y se rodean por parentesis
+     *         para crear las asociaciones, con dichas asociaciones se crea el arbol
+     *         binario
      */
     public BinarySearchTree insertBST(String fileName) {
         BinarySearchTree dictionary = new BinarySearchTree();
@@ -29,16 +31,17 @@ public class ReadFile {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             String linea;
             while ((linea = br.readLine()) != null) {
-                //separar asociaciones
+                // separar asociaciones
+                linea = linea.replaceAll("[()]", "");
                 String[] palabras = linea.split(",\\s*");
 
                 if (palabras.length == 2) {
-                    //asignar palabra en ingles como clave y la palabra en español como valor
+                    // asignar palabra en ingles como clave y la palabra en español como valor
                     String key = palabras[0].trim();
                     String value = palabras[1].trim();
 
-                    //crear la asociacion e insertarla en el árbol
-                    Association<String,String> association = new Association(key, value);
+                    // crear la asociacion e insertarla en el árbol
+                    Association<String, String> association = new Association<>(key, value);
                     dictionary.insert(association);
                 } else {
                     System.out.println("Formato de la línea incorrecto: " + linea);
@@ -53,8 +56,7 @@ public class ReadFile {
         return dictionary;
     }
 
-    
-    /** 
+    /**
      * @param fileName
      * @param dictionary
      * @return String
