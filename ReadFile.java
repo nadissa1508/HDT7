@@ -15,7 +15,7 @@ public class ReadFile {
                 if (palabras.length == 2) {
                     String key = palabras[0].trim();
                     String value = palabras[1].trim();
-                    Association association = new Association(key, value);
+                    Association<String,String> association = new Association(key, value);
                     dictionary.insert(association);
                 } else {
                     System.out.println("Formato de la línea incorrecto: " + linea);
@@ -35,10 +35,18 @@ public class ReadFile {
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             String linea;
+            Association<String, String> association;
             while ((linea = br.readLine()) != null) {
                 String[] words = linea.split("\\s+");
+
                 for (String word : words) {
-                    String translatedWord = translateWord(word.toLowerCase(), dictionary);
+                    String translatedWord = "";
+                    association = dictionary.search(new Association(word, ""));
+                    if (association != null) {
+                        translatedWord = association.getValue();
+                    } else {
+                        translatedWord = "*" + word + "*";
+                    }
                     translatedText.append(translatedWord).append(" ");
                 }
             }
@@ -50,12 +58,4 @@ public class ReadFile {
         return translatedText.toString();
     }
 
-    private String translateWord(String word, BinarySearchTree dictionary) {
-        Association association = dictionary.search(new Association(word, ""));
-        if (association != null) {
-            return association.getValue();
-        } else {
-            return "*" + word + "*";
-        }
-    }
 }
