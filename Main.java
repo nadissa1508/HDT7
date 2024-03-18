@@ -10,7 +10,7 @@ public class Main {
         reader.insertBST();
 
         //leer el archivo para traducir su contenido
-        String translate = reader.readFile();
+        String translate = reader.readFile("texto.txt");
         System.out.println("\n\nDICCIONARIO INGLES-ESPAÑOL");
         System.out.println("\nLa traducción del texto ingresado es:");
         System.out.println("\n" + translate);
