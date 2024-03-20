@@ -7,7 +7,7 @@
  * @date última modificación 18/03/2024
  */
 
-public class Main {
+ public class Main {
 
     /**
      * @param args
@@ -16,7 +16,8 @@ public class Main {
         // Crear y llenar el arbol
         ReadFile reader = new ReadFile();
         BinarySearchTree dictionary = reader.insertBST("diccionario.txt");
-
+        System.out.println("\n\nÁrbol ordenado");
+        dictionary.searchInOrder();
         // leer el archivo para traducir su contenido
         String translatedText = reader.translateText("texto.txt", dictionary);
         System.out.println("\n\nDICCIONARIO INGLES-ESPAÑOL");
